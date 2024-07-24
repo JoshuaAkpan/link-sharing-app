@@ -1,24 +1,30 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import Input from './Input';
-import Button from './Button';
-import { updateProfile, getProfile } from '../lib/profile';
-import { Profile } from '../types';
-import { storage } from '../lib/firebaseConfig';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Input from "./Input";
+import Button from "./Button";
+import ProfilePictureUpload from "./ProfilePictureUpload";
+import { updateProfile, getProfile } from "../lib/profile";
+import { Profile } from "../types";
+import { storage } from "../lib/firebaseConfig";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import toast from "react-hot-toast";
+import CustomToast from "./CustomToast";
 
 interface ProfileFormProps {
   userId: string;
 }
 
 const ProfileForm: React.FC<ProfileFormProps> = ({ userId }) => {
-  const [profile, setProfile] = useState<Profile>({ firstName: '', lastName: '', email: '', imageUrl: '' });
+  const [profile, setProfile] = useState<Profile>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    imageUrl: "",
+  });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -34,14 +40,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ userId }) => {
     fetchProfile();
   }, [userId]);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleImageChange = (file: File | null) => {
     if (file) {
-      if (file.size > 1024 * 1024) { // 1MB size limit
+      if (file.size > 1024 * 1024) {
+        // 1MB size limit
         alert("Image must be below 1MB");
         return;
       }
-      if (!['image/jpeg', 'image/png'].includes(file.type)) {
+      if (!["image/jpeg", "image/png"].includes(file.type)) {
         alert("Please use PNG or JPG format");
         return;
       }
@@ -51,6 +57,9 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ userId }) => {
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+    } else {
+      setImagePreview(null);
+      setImageFile(null);
     }
   };
 
@@ -58,7 +67,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ userId }) => {
     if (!imageFile) return null;
     const storageRef = ref(storage, `profile-images/${userId}`);
     await uploadBytes(storageRef, imageFile);
-
     return getDownloadURL(storageRef);
   };
 
@@ -66,58 +74,70 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ userId }) => {
     e.preventDefault();
     let imageUrl = profile.imageUrl;
     if (imageFile) {
-      imageUrl = await uploadImage() || imageUrl;
+      imageUrl = (await uploadImage()) || imageUrl;
     }
     await updateProfile(userId, { ...profile, imageUrl });
-    router.push('/dashboard/links');
+    router.push("/dashboard/links");
+
+    toast.custom(
+      <CustomToast
+        icon={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            width="24"
+            height="24"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{ marginRight: "8px" }}
+          >
+            <path d="M9 11l3 3L22 4" />
+            <path d="M22 12v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h9" />
+          </svg>
+        }
+        text="Your changes have been successfully saved!"
+      />
+    );
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="flex flex-col items-center">
-        <div className="w-32 h-32 relative mb-4">
-          {imagePreview ? (
-            <Image src={imagePreview} alt="Profile" layout="fill" objectFit="cover" className="rounded-full" />
-          ) : (
-            <div className="w-full h-full bg-gray-200 rounded-full flex items-center justify-center">
-              <span className="text-gray-500">No Image</span>
-            </div>
-          )}
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="flex flex-col gap-6">
+        <ProfilePictureUpload onChange={handleImageChange} imagePreview={imagePreview} />
+        <div className="flex-1">
+          <Input
+            label="First Name*"
+            value={profile.firstName}
+            onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
+            placeholder="e.g. John"
+            
+          />
+          <Input
+            label="Last Name*"
+            value={profile.lastName}
+            onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
+            placeholder="e.g. Appleseed"
+            
+          />
+          <Input
+            label="Email"
+            type="email"
+            value={profile.email}
+            onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+            placeholder="e.g. email@example.com"
+            
+          />
+          
+          <div className="text-right mt-4">
+            <Button type="submit" width="91px">
+              Save
+            </Button>
+          </div>
         </div>
-        <input
-          type="file"
-          accept="image/png, image/jpeg"
-          onChange={handleImageChange}
-          className="hidden"
-          ref={fileInputRef}
-        />
-        <Button type="button" onClick={() => fileInputRef.current?.click()}>
-          Upload Image
-        </Button>
-        <p className="text-sm text-gray-500 mt-2">
-          Image must be below 1024x1024px. Use PNG or JPG format.
-        </p>
       </div>
-      <Input
-        label="First Name"
-        value={profile.firstName}
-        onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
-        required
-      />
-      <Input
-        label="Last Name"
-        value={profile.lastName}
-        onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
-        required
-      />
-      <Input
-        label="Email"
-        type="email"
-        value={profile.email}
-        onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-        required
-      />
-      <Button type="submit">Save</Button>
     </form>
   );
 };

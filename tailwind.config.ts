@@ -14,6 +14,9 @@ const config: Config = {
           700: '#4F31CC',
         },
       },
+      boxShadow: {
+        custom: '0px 0px 32px 0px rgba(99, 60, 255, 0.25)'
+      }
     },
   },
   plugins: [],

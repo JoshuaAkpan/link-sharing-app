@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '../../../components/Header';
 import ProfileForm from '../../../components/ProfileForm';
+import Button from "../../../components/Button";
 import { auth } from '../../../lib/firebaseConfig';
 
 export default function Profile() {
@@ -27,12 +28,30 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="mx-auto min-h-screen max-w-[1440px] flex flex-col items-center justify-center">
+    <div className="w-full">
       <Header />
-      <main className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6">Profile Details</h1>
-        <ProfileForm userId={userId} />
-      </main>
     </div>
+
+    <main className="flex w-full max-w-[1440px] p-[24px] gap-[24px] ">
+      <div className="flex-1 bg-white rounded-[12px] flex items-center justify-center p-6">
+        <div className="w-[307px] h-[631px] bg-[#633CFF] rounded-[12px]"></div>
+      </div>
+
+      <div className="flex-1 bg-white rounded-[12px] p-[40px] flex flex-col">
+        <div className="mb-6">
+          <h2 className="text-[32px] font-bold text-[#333333]">
+          Profile Details
+          </h2>
+
+          <p className="text-[#737373] text-[16px]">
+          Add your details to create a personal touch to your profile.
+          </p>
+        </div>
+        <ProfileForm userId={userId} />
+      </div>
+    </main>
+  </div>
+
   );
 }
