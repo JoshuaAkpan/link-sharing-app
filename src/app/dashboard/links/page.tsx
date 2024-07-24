@@ -8,6 +8,7 @@ import Button from "../../../components/Button";
 import { getLinks, addLink, updateLink, deleteLink } from "../../../lib/links";
 import { Link } from "../../../types";
 import { auth } from "../../../lib/firebaseConfig";
+import { getLinkColor } from "../../../lib/utils";
 
 export default function Links() {
   const [links, setLinks] = useState<Link[]>([]);
@@ -56,8 +57,25 @@ export default function Links() {
       </div>
 
       <main className="flex w-full max-w-[1440px] p-[24px] gap-[24px] ">
-        <div className="flex-1 bg-white rounded-[12px] flex items-center justify-center p-6">
-          <div className="w-[307px] h-[631px] bg-[#633CFF] rounded-[12px]"></div>
+        <div className="hidden md:flex md:flex-1 bg-white rounded-[12px] items-center justify-center p-6">
+          <div className="relative w-[307px] h-[631px] bg-[#633CFF] rounded-[12px]"></div>
+          <div className="absolute">
+            {links.map((link) => (
+              <a
+                key={link.id}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`block text-center py-3 px-4 rounded-md mb-3 ${getLinkColor(
+                  link.platform
+                )} hover:opacity-90 transition-opacity`}
+              >
+                {`${link.platform.charAt(0).toUpperCase()}${link.platform.slice(
+                  1
+                )}`}
+              </a>
+            ))}
+          </div>
         </div>
 
         <div className="flex-1 bg-white rounded-[12px] p-[40px] flex flex-col">

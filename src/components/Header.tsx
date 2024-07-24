@@ -1,11 +1,23 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { auth } from "../lib/firebaseConfig";
 
 const Header: React.FC = () => {
   const pathname = usePathname();
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUserId(user.uid);
+        
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <header className="bg-white rounded-[12px] mx-[24px] mt-[24px]">
@@ -14,7 +26,6 @@ const Header: React.FC = () => {
           <span className="text-purple-600 font-bold text-xl">devlinks</span>
         </Link>
         <nav className="flex space-x-4 w-[52%] justify-between">
-
           <div className="flex gap-4">
             <Link href="/dashboard/links">
               <span
@@ -39,12 +50,13 @@ const Header: React.FC = () => {
               </span>
             </Link>
           </div>
-
-          <Link href="/preview">
-            <span className="bg-white text-purple-600 border border-purple-600 px-4 py-2 rounded-md justify-end">
-              Preview
-            </span>
-          </Link>
+          {userId && (
+            <Link href={`/preview/${userId}`}>
+              <span className="bg-white text-purple-600 border border-purple-600 px-4 py-2 rounded-md justify-end">
+                Preview
+              </span>
+            </Link>
+          )}
         </nav>
       </div>
     </header>

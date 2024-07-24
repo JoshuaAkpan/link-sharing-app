@@ -1,40 +1,39 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { auth } from "../../lib/firebaseConfig";
-import { getLinks } from "../../lib/links";
-import { getProfile } from "../../lib/profile";
-import { Link, Profile } from "../../types";
-import Button from "../../components/Button";
+// import { auth } from "../../../lib/firebaseConfig";
+import { getLinks } from "../../../lib/links";
+import { getProfile } from "../../../lib/profile";
+import { getLinkColor } from "../../../lib/utils";
+import { Link, Profile } from "../../../types";
+import Button from "../../../components/Button";
 import toast from "react-hot-toast";
-import CustomToast from "../../components/CustomToast";
-
+import CustomToast from "../../../components/CustomToast";
 
 export default function Preview() {
   const [links, setLinks] = useState<Link[]>([]);
   const [profile, setProfile] = useState<Profile | null>(null);
+  const params = useParams();
+  const userId = params.userId as string;
   const router = useRouter();
-  
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const userLinks = await getLinks(user.uid);
-        const userProfile = await getProfile(user.uid);
+    async function fetchUserData() {
+      if (userId) {
+        const userLinks = await getLinks(userId);
+        const userProfile = await getProfile(userId);
         setLinks(userLinks);
         setProfile(userProfile);
-      } else {
-        router.push("/auth/login");
       }
-    });
+    }
 
-    return () => unsubscribe();
-  }, [router]);
-  
+    fetchUserData();
+  }, [userId]);
 
   const handleCopyLink = () => {
-    const url = window.location.origin + "/preview";
+    const url = `${window.location.origin}/preview/${userId}`;
     navigator.clipboard.writeText(url);
     toast.custom(
       <CustomToast
@@ -49,7 +48,7 @@ export default function Preview() {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            style={{ marginRight: '8px' }}
+            style={{ marginRight: "8px" }}
           >
             <path d="M9 11l3 3L22 4" />
             <path d="M22 12v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h9" />
@@ -64,24 +63,6 @@ export default function Preview() {
     return <div>Loading...</div>;
   }
 
-  const getLinkColor = (platform: string) => {
-    switch (platform.toLowerCase()) {
-      case 'github': return 'bg-[#1A1A1A] text-white';
-      case 'youtube': return 'bg-[#EE3939] text-white';
-      case 'linkedin': return 'bg-[#2D68FF] text-white';
-      case 'twitter': return 'bg-[#43B7E9] text-white';
-      case 'frontend mentor': return 'bg-[#FFFFFF] text-[#333333]';
-      case 'facebook': return 'bg-[#2442AC] text-white';
-      case 'twitch': return 'bg-[#EE3FC8] text-white';
-      case 'dev.to': return 'bg-[#333333] text-white';
-      case 'codewars': return 'bg-[#8A1A50] text-white';
-      case 'freecodecamp': return 'bg-[#302267] text-white';
-      case 'gitlab': return 'bg-[#EB4925] text-white';
-      case 'hashnode': return 'bg-[#0330D1] text-white';
-      case 'stack overflow': return 'bg-[#EC7100] text-white';
-      default: return 'bg-gray-200 text-black';
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
@@ -100,9 +81,13 @@ export default function Preview() {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className={`block text-center py-3 px-4 rounded-md mb-3 ${getLinkColor(link.platform)} hover:opacity-90 transition-opacity`}
+            className={`block text-center py-3 px-4 rounded-md mb-3 ${getLinkColor(
+              link.platform
+            )} hover:opacity-90 transition-opacity`}
           >
-           {`${link.platform.charAt(0).toUpperCase()}${link.platform.slice(1)}`}
+            {`${link.platform.charAt(0).toUpperCase()}${link.platform.slice(
+              1
+            )}`}
           </a>
         ))}
       </div>
