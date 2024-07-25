@@ -1,20 +1,30 @@
+import AuthForm from '../components/AuthForm';
 import Link from 'next/link';
+import Image from 'next/image';
 
-export default function Home() {
+export default function Login() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Devlinks</h1>
-        <p className="mb-8">Share your developer profile with the world!</p>
-        <div className="space-x-4">
-          <Link href="/auth/login">
-            <span className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">Login</span>
-          </Link>
-          <Link href="/auth/signup">
-            <span className="bg-white text-purple-600 border border-purple-600 px-4 py-2 rounded-md hover:bg-purple-100">Sign Up</span>
-          </Link>
-        </div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFFFF] sm:bg-[#FAFAFA]">
+      <div className=' mb-[51px]'>
+          <Image alt='devLinks' src='/images/logo.svg' width={146} height={32} />
       </div>
+
+
+      <div className="min-w-0[375px] max-w-[476px] w-full space-y-8 bg-[#FFFFFF] p-[40px]">
+        <div>
+          <h2 className="mt-6 text-[32px] font-[700] leading-[150%] text-[#333333]">Login</h2>
+          <p className="text-[#737373] text-[16px]">Add your details below to get back into the app</p>
+        </div>
+        <AuthForm isLogin />
+
+        <div className='flex flex-col sm:flex-row justify-center items-center gap-1'>
+        <p className="text-[#737373] text-[16px]">Don’t have an account?</p>
+        <Link href="/auth/signup" className="text-[#633CFF] text-[16px]">Create account</Link>
+        </div>
+
+      </div>
+
+
     </div>
   );
 }

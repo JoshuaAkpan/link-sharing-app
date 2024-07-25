@@ -6,7 +6,10 @@ interface ProfilePictureUploadProps {
   imagePreview: string | null;
 }
 
-const ProfilePictureUpload: React.FC<ProfilePictureUploadProps> = ({ onChange, imagePreview }) => {
+const ProfilePictureUpload: React.FC<ProfilePictureUploadProps> = ({
+  onChange,
+  imagePreview,
+}) => {
   const [image, setImage] = useState<string | null>(imagePreview);
 
   useEffect(() => {
@@ -23,7 +26,7 @@ const ProfilePictureUpload: React.FC<ProfilePictureUploadProps> = ({ onChange, i
   };
 
   return (
-    <div className="text-[#737373] flex flex-col md:items-center md:flex-row md:justify-center">
+    <div className="text-[#737373] bg-[#FAFAFA] flex flex-col  md:items-center md:flex-row md:justify-center md:gap-[12px] md:h-[] rounded-[12px] p-[20px] items-center">
       <h1 className="">Profile picture</h1>
 
       <div className="w-64 h-64 relative mb-4">
@@ -40,22 +43,36 @@ const ProfilePictureUpload: React.FC<ProfilePictureUploadProps> = ({ onChange, i
             <span className="text-gray-500"></span>
           </div>
         )}
-        <div className="absolute h-[193px] w-[193px] inset-0 bg-[#EFEBFF] bg-opacity-50 rounded-[12px] flex flex-col items-center justify-center cursor-pointer ">
-          <svg
-            className="w-12 h-12 text-[#633CFF]"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M7 16l-4-4m0 0l4-4m-4 4h18M4 8h16m-4 8H4"
-            />
-          </svg>
-          <span className="mt-4 text-[#633CFF] text-base font-semibold">+ Upload Image</span>
+
+        <div className={`absolute h-[193px] w-[193px] inset-0  bg-opacity-50 rounded-[12px] flex flex-col items-center justify-center cursor-pointer ${image ? 'bg-[#EFEBFF]':'bg-[#00000080]'}`}>
+
+          {image ? (
+            <div className="flex flex-col justify-center items-center">
+              <Image
+                src="/images/imageUploadIcon.svg"
+                alt="imageUploadIcon"
+                width={40}
+                height={40}
+                className="fill-[#FFFFFF]"
+              />
+              <span className="mt-4 text-[#FFFFFF] text-base font-semibold">
+                Change Image
+              </span>
+            </div>
+          ) : (
+            <div className="flex flex-col justify-center items-center">
+              <Image
+                src="/images/imageUploadIcon.svg"
+                alt="imageUploadIcon"
+                width={40}
+                height={40}
+                className="text-[#633CFF]"
+              />
+              <span className="mt-4 text-[#633CFF] text-base font-semibold">
+                + Upload Image
+              </span>
+            </div>
+          )}
         </div>
 
         <input
@@ -65,6 +82,7 @@ const ProfilePictureUpload: React.FC<ProfilePictureUploadProps> = ({ onChange, i
           className="absolute inset-0 opacity-0 cursor-pointer"
         />
       </div>
+
       <p className="text-sm text-gray-500 mt-2 text-center md:h-[54px] md:w-[127px]">
         Image must be below 1024x1024px. Use PNG or JPG format.
       </p>

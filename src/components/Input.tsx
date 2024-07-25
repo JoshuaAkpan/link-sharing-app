@@ -5,7 +5,7 @@ import React from 'react';
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
-  icon?: 'email' | 'password';
+  icon?: 'email' | 'password' | '';
 }
 
 const Input: React.FC<InputProps> = ({ label, error, icon, ...props }) => {

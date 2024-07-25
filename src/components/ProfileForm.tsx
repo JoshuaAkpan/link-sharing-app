@@ -40,6 +40,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ userId }) => {
     fetchProfile();
   }, [userId]);
 
+
+  
   const handleImageChange = (file: File | null) => {
     if (file) {
       if (file.size > 1024 * 1024) {
@@ -113,6 +115,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ userId }) => {
             value={profile.firstName}
             onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
             placeholder="e.g. John"
+            icon=""
             
           />
           <Input
@@ -131,8 +134,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ userId }) => {
             
           />
           
-          <div className="text-right mt-4">
-            <Button type="submit" width="91px">
+          <div className="bg-white h-[26px] md:mt-[41px] lg:pb-10 py-[24px] border-t flex justify-end relative">
+            <Button
+              width="w-[91px]"
+              textColor="#fff"
+              onClick={() => alert("Save clicked!")}
+            >
               Save
             </Button>
           </div>

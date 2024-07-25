@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="h-screen box-border overflow-auto">
         {children}
         <Toaster
           position="bottom-center"

@@ -9,7 +9,8 @@ import SkeletonLinks from "../../../components/SkeletonLinks";
 import { getLinks, addLink, updateLink, deleteLink } from "../../../lib/links";
 import { Link } from "../../../types";
 import { auth } from "../../../lib/firebaseConfig";
-import  {getLinkColor}  from "../../../lib/utils";
+import Image from "next/image";
+import PhoneMockup from "../../../components/PhoneMockup";
 
 export default function Links() {
   const [links, setLinks] = useState<Link[]>([]);
@@ -51,45 +52,27 @@ export default function Links() {
     setLinks(links.filter((link) => link.id !== id));
   };
 
-  
-
   return (
     <div className="mx-auto min-h-screen max-w-[1440px] flex flex-col items-center justify-center">
-      <div className="w-full">
-        <Header />
-      </div>
+      <div className="w-full"><Header /></div>
 
-      <main className="flex w-full max-w-[1440px] p-[24px] gap-[24px] ">
-        <div className="relative w-[307px] h-[631px] rounded-[12px] overflow-hidden">
-          <div className="absolute flex flex-col items-center justify-center w-full h-full overflow-y-auto">
+      <main className="flex justify-center box-border  w-full max-w-[1440px] p-[16px] md:p-[24px] gap-[24px] ">
+        <div className="hidden lg:flex relative w-5/12 bg-[#FFFFFF]">
+          <div className="absolute flex flex-col items-center justify-center w-full h-full">
             {links.length === 0 ? (
               <SkeletonLinks />
             ) : (
-              links.map((link) => {
-                const linkClasses = `block text-center py-3 px-4 rounded-md mb-3 ${getLinkColor(link.platform)} hover:opacity-90 transition-opacity`;
-                console.log(`Link classes for ${link.platform}:`, linkClasses);
-                return (
-                  <a
-                    key={link.id}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={linkClasses}
-                  >
-                    {`${link.platform.charAt(0).toUpperCase()}${link.platform.slice(1)}`}
-                  </a>
-                );
-              })
+              <PhoneMockup links={links} />
             )}
           </div>
         </div>
 
-        <div className="flex-1 w-[808px] h-[834px] bg-white rounded-[12px] p-[40px] flex flex-col">
+        <div className="w-[808px] md:h-[850px] lg:h-[810px] bg-white rounded-[12px] p-[24px] md:pt-[40px] md:px-[40px] flex flex-col">
           <div className="mb-6">
-            <h2 className="text-[32px] font-bold text-[#333333]">
+            <h2 className="text-2xl mb-[8px] md:text-[32px] font-bold text-[#333333]">
               Customize your links
             </h2>
-            <p className="text-[#737373] text-[16px]">
+            <p className="text-[#737373] text-base">
               Add/edit/remove links below and then share all your profiles with
               the world!
             </p>
@@ -101,20 +84,46 @@ export default function Links() {
             + Add new link
           </Button>
 
-          <div className="flex flex-col gap-4 h-[500px]  overflow-y-auto custom-scrollbar">
-            {links.map((link, index) => (
-              <LinkItem
-                key={link.id}
-                link={link}
-                onUpdate={handleUpdateLink}
-                onDelete={handleDeleteLink}
-                count={index + 1}
-              />
-            ))}
+          <div className="flex flex-col gap-4">
+            {links.length === 0 ? (
+              <div className="flex flex-col text-center rounded-[12px] bg-[#FAFAFA] pb-[46px]">
+                <div className="relative w-[200px] h-auto md:w-[300px] md:h-auto mx-auto pt-[46px] md:pt-[84px] lg:pt-[44px]">
+                  <Image
+                    src="/images/linksBgImage.svg"
+                    alt="Background image for links"
+                    layout="responsive"
+                    width={250}
+                    height={160}
+                    className="rounded-md"
+                  />
+                </div>
+                <div>
+                  <h1 className="font-bold text-2xl md:text-4xl py-[24px] md:pt-[40px] md:pb-[24px] text-[#333333]">Let’s get you started</h1>
+                  <p className="text-base md:pb-[20px] px-[20px] md:px-76px lg:px-[100px]">Use the “Add new link” button to get started. Once you have more than one link, you can reorder and edit them. We’re here to help you share your profiles with everyone!</p>
+                </div>
+
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4 h-[500px]  overflow-y-auto custom-scrollbar">
+                {links.map((link, index) => (
+                  <LinkItem
+                    key={link.id}
+                    link={link}
+                    onUpdate={handleUpdateLink}
+                    onDelete={handleDeleteLink}
+                    count={index + 1}
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
-          <div className="bg-white w-[] h-[26px] p-4 border-t flex justify-end relative">
-            <Button width="w-[91px]" onClick={() => alert("Save clicked!")}>
+          <div className="bg-white h-[26px] md:mt-[41px] lg:pb-10 py-[24px] border-t flex justify-end relative">
+            <Button
+              width="w-[91px]"
+              textColor="#fff"
+              onClick={() => alert("Save clicked!")}
+            >
               Save
             </Button>
           </div>
