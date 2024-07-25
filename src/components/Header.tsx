@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { auth } from "../lib/firebaseConfig";
+import Image from "next/image";
 
 const Header: React.FC = () => {
   const pathname = usePathname();
@@ -23,7 +24,7 @@ const Header: React.FC = () => {
     <header className="bg-white rounded-[12px] mx-[24px] mt-[24px]">
       <div className="container h-[78px] mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/">
-          <span className="text-purple-600 font-bold text-xl">devlinks</span>
+          <Image alt='devLinks' src='/images/logo.svg' width={146} height={32} />
         </Link>
         <nav className="flex space-x-4 w-[52%] justify-between">
           <div className="flex gap-4">

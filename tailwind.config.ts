@@ -16,7 +16,16 @@ const config: Config = {
       },
       boxShadow: {
         custom: '0px 0px 32px 0px rgba(99, 60, 255, 0.25)'
-      }
+      },
+      keyframes: {
+        moveInOut: {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '50%': { transform: 'translateX(100px)' },
+        },
+      },
+      animation: {
+        moveInOut: 'moveInOut 2s ease-in-out infinite',
+      },
     },
   },
   plugins: [],

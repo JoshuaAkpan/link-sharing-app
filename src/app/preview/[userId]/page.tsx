@@ -3,12 +3,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-// import { auth } from "../../../lib/firebaseConfig";
 import { getLinks } from "../../../lib/links";
 import { getProfile } from "../../../lib/profile";
 import { getLinkColor } from "../../../lib/utils";
 import { Link, Profile } from "../../../types";
-import Button from "../../../components/Button";
+import PreLoader from "../../../components/PreLoader";
 import toast from "react-hot-toast";
 import CustomToast from "../../../components/CustomToast";
 
@@ -60,12 +59,30 @@ export default function Preview() {
   };
 
   if (!profile) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <PreLoader />
+      </div>
+    );
   }
-
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+      <header className="container w-full h-[78px] px-4 py-4 flex justify-between items-center rounded-[12px] mb-[126px]">
+
+        <a onClick={() => router.push("/dashboard/links")}>
+          <span className="bg-white cursor-pointer text-purple-600 border border-purple-600 px-4 py-2 rounded-md hover:bg-purple-100">
+            Back to Editor
+          </span>
+        </a>
+
+        <a onClick={handleCopyLink}>
+          <span className="bg-purple-600 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-purple-700">
+            Share Link
+          </span>
+        </a>
+      </header>
+
       <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
         <img
           src={profile.imageUrl || "https://via.placeholder.com/150"}
@@ -90,15 +107,6 @@ export default function Preview() {
             )}`}
           </a>
         ))}
-      </div>
-
-      <div className="mt-8">
-        <Button onClick={() => router.push("/dashboard/links")}>
-          Back to Editor
-        </Button>
-        <Button onClick={handleCopyLink} className="ml-4">
-          Share Link
-        </Button>
       </div>
     </div>
   );

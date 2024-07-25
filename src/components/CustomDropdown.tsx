@@ -1,9 +1,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
+import { getIcon } from "../lib/utils";
+import Image from 'next/image';
 
-interface PlatformIcons {
-  [key: string]: React.ReactNode;
-}
 
 type Platform = 'GitHub' | 'Frontend Mentor' | 'Twitter' | 'LinkedIn' | 'YouTube' | 'Facebook' | 'Twitch' | 'Dev.to' | 'Codewars' | 'freeCodeCamp' | 'GitLab' | 'Hashnode' | 'Stack Overflow';
 
@@ -54,7 +53,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ options, value, onChang
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center">
-          {/* {getIcon(value)} */}
+          <Image alt={value} src={`${getIcon(value)}`} width={20} height={20} />
           <span className="ml-2">{value}</span>
         </div>
         <svg className="w-5 h-5 text-[#633CFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -69,7 +68,8 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ options, value, onChang
               className="p-3 hover:text-[#633CFF] cursor-pointer flex items-center"
               onClick={() => handleSelect(option)}
             >
-              {/* {getIcon(option)} */}
+              <Image alt={option} src={`${getIcon(option)}`} width={20} height={20} />
+
               <span className="ml-2 w-full">{option} </span>
               
             </div>

@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 import Header from "../../../components/Header";
 import LinkItem from "../../../components/LinkItem";
 import Button from "../../../components/Button";
+import SkeletonLinks from "../../../components/SkeletonLinks";
 import { getLinks, addLink, updateLink, deleteLink } from "../../../lib/links";
 import { Link } from "../../../types";
 import { auth } from "../../../lib/firebaseConfig";
-import { getLinkColor } from "../../../lib/utils";
+import  {getLinkColor}  from "../../../lib/utils";
 
 export default function Links() {
   const [links, setLinks] = useState<Link[]>([]);
@@ -50,6 +51,8 @@ export default function Links() {
     setLinks(links.filter((link) => link.id !== id));
   };
 
+  
+
   return (
     <div className="mx-auto min-h-screen max-w-[1440px] flex flex-col items-center justify-center">
       <div className="w-full">
@@ -57,28 +60,31 @@ export default function Links() {
       </div>
 
       <main className="flex w-full max-w-[1440px] p-[24px] gap-[24px] ">
-        <div className="hidden md:flex md:flex-1 bg-white rounded-[12px] items-center justify-center p-6">
-          <div className="relative w-[307px] h-[631px] bg-[#633CFF] rounded-[12px]"></div>
-          <div className="absolute">
-            {links.map((link) => (
-              <a
-                key={link.id}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`block text-center py-3 px-4 rounded-md mb-3 ${getLinkColor(
-                  link.platform
-                )} hover:opacity-90 transition-opacity`}
-              >
-                {`${link.platform.charAt(0).toUpperCase()}${link.platform.slice(
-                  1
-                )}`}
-              </a>
-            ))}
+        <div className="relative w-[307px] h-[631px] rounded-[12px] overflow-hidden">
+          <div className="absolute flex flex-col items-center justify-center w-full h-full overflow-y-auto">
+            {links.length === 0 ? (
+              <SkeletonLinks />
+            ) : (
+              links.map((link) => {
+                const linkClasses = `block text-center py-3 px-4 rounded-md mb-3 ${getLinkColor(link.platform)} hover:opacity-90 transition-opacity`;
+                console.log(`Link classes for ${link.platform}:`, linkClasses);
+                return (
+                  <a
+                    key={link.id}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={linkClasses}
+                  >
+                    {`${link.platform.charAt(0).toUpperCase()}${link.platform.slice(1)}`}
+                  </a>
+                );
+              })
+            )}
           </div>
         </div>
 
-        <div className="flex-1 bg-white rounded-[12px] p-[40px] flex flex-col">
+        <div className="flex-1 w-[808px] h-[834px] bg-white rounded-[12px] p-[40px] flex flex-col">
           <div className="mb-6">
             <h2 className="text-[32px] font-bold text-[#333333]">
               Customize your links
@@ -107,8 +113,10 @@ export default function Links() {
             ))}
           </div>
 
-          <div className="bg-white p-4 border-t flex justify-end">
-            <Button onClick={() => alert("Save clicked!")}>Save</Button>
+          <div className="bg-white w-[] h-[26px] p-4 border-t flex justify-end relative">
+            <Button width="w-[91px]" onClick={() => alert("Save clicked!")}>
+              Save
+            </Button>
           </div>
         </div>
       </main>

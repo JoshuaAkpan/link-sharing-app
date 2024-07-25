@@ -1,10 +1,13 @@
 import AuthForm from "../../../components/AuthForm";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function SignUp() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFFFFF] sm:bg-[#FAFAFA]">
-      <h1 className="text-purple-600 font-bold text-xl mb-[51px]">devlinks</h1>
+      <div className=' mb-[51px]'>
+          <Image alt='devLinks' src='/images/logo.svg' width={146} height={32} />
+      </div>
 
       <div className="min-w-0[375px] max-w-[476px] w-full space-y-8 bg-[#FFFFFF] p-[40px]">
         <div>
