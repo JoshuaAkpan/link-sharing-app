@@ -69,8 +69,10 @@ export default function Preview() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
-      <header className="container w-full h-[78px] px-4 py-4 flex justify-between items-center rounded-[12px] mb-[126px]">
+    <div className="min-h-screen bg-[#FFFFFF] md:bg-gray-100 flex flex-col items-center justify-center relative">
+      <div className="hidden md:block absolute top-0 w-full h-[357px] bg-[#633CFF] rounded-b-[32px] z-0"></div>
+
+      <header className="container w-full h-[78px] px-4 py-4 flex justify-between items-center rounded-[12px] mb-[126px] z-10 bg-[#FFFFFF]">
         <a onClick={() => router.push("/dashboard/links")}>
           <span className="bg-white cursor-pointer text-purple-600 border border-purple-600 px-4 py-2 rounded-md hover:bg-purple-100">
             Back to Editor
@@ -84,7 +86,7 @@ export default function Preview() {
         </a>
       </header>
 
-      <div className="w-[349px] p-[56px] rounded-[24px] shadow-card bg-white">
+      <div className="w-[349px] p-[56px] rounded-[24px] md:shadow-card bg-white z-10">
         <div className="flex flex-col justify-center items-center   max-w-md w-full sm:mx-2">
           <img
             src={profile.imageUrl || "https://via.placeholder.com/150"}
@@ -95,7 +97,14 @@ export default function Preview() {
           <h1 className="text-2xl font-bold text-center mb-2">{`${profile.firstName} ${profile.lastName}`}</h1>
           <p className="text-gray-600 text-center mb-6">{profile.email}</p>
 
-          {links ? (
+          {links.length == 0 ? (
+            <div className="flex flex-col items-center justify-center w-full h-full animate-pulse">
+              <div className="block text-center py-3 px-4 rounded-md mb-[20px] bg-[#EEEEEE] w-full h-[44px]"></div>
+              <div className="block text-center py-3 px-4 rounded-md mb-[20px] bg-[#EEEEEE] w-full h-[44px]"></div>
+              <div className="block text-center py-3 px-4 rounded-md mb-[20px] bg-[#EEEEEE] w-full h-[44px]"></div>
+              <div className="block text-center py-3 px-4 rounded-md mb-[20px] bg-[#EEEEEE] w-full h-[44px]"></div>
+            </div>
+          ) : (
             links.map((link) => {
               const linkClasses = `flex items-center justify-between text-center py-3 px-[16px] rounded-md mb-3 w-full h-[44px] relative ${getLinkColor(
                 link.platform
@@ -131,14 +140,6 @@ export default function Preview() {
                 </a>
               );
             })
-          ) : (
-            <div className="absolute flex flex-col items-center justify-center w-[273px] h-full animate-pulse">
-              <div className="block text-center py-3 px-4 rounded-md mb-[20px] bg-[#EEEEEE] w-full h-[44px]"></div>
-              <div className="block text-center py-3 px-4 rounded-md mb-[20px] bg-[#EEEEEE] w-full h-[44px]"></div>
-              <div className="block text-center py-3 px-4 rounded-md mb-[20px] bg-[#EEEEEE] w-full h-[44px]"></div>
-              <div className="block text-center py-3 px-4 rounded-md mb-[20px] bg-[#EEEEEE] w-full h-[44px]"></div>
-              <div className="block text-center py-3 px-4 rounded-md mb-3 bg-[#EEEEEE] w-3/4 h-[44px]"></div>
-            </div>
           )}
         </div>
       </div>
