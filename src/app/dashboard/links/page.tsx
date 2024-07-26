@@ -24,7 +24,7 @@ export default function Links() {
         const userLinks = await getLinks(user.uid);
         setLinks(userLinks);
       } else {
-        router.push("/auth/login");
+        router.push("/");
       }
     });
 
