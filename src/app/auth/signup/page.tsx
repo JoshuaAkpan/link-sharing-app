@@ -22,7 +22,7 @@ export default function SignUp() {
 
         <div className="flex flex-col sm:flex-row justify-center items-center gap-1">
           <p className="text-[#737373] text-[16px]">Already have an account?</p>
-          <Link href="/auth/login" className="text-[#633CFF] text-[16px]">
+          <Link href="/" className="text-[#633CFF] text-[16px]">
           Login
           </Link>
         </div>
