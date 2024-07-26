@@ -94,41 +94,52 @@ export default function Preview() {
 
           <h1 className="text-2xl font-bold text-center mb-2">{`${profile.firstName} ${profile.lastName}`}</h1>
           <p className="text-gray-600 text-center mb-6">{profile.email}</p>
-          {links.map((link) => {
-            const linkClasses = `flex items-center justify-between text-center py-3 px-[16px] rounded-md mb-3 w-full h-[44px] relative ${getLinkColor(
-              link.platform
-            )} hover:opacity-90 transition-opacity`;
-            return (
-              <a
-                key={link.id}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={linkClasses}
-              >
-                <div className="flex">
+
+          {links ? (
+            links.map((link) => {
+              const linkClasses = `flex items-center justify-between text-center py-3 px-[16px] rounded-md mb-3 w-full h-[44px] relative ${getLinkColor(
+                link.platform
+              )} hover:opacity-90 transition-opacity`;
+              return (
+                <a
+                  key={link.id}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={linkClasses}
+                >
+                  <div className="flex">
+                    <Image
+                      alt={link.platform}
+                      src={`${getIcon(link.platform)}`}
+                      width={16}
+                      height={16}
+                      className="mr-[8px]"
+                    />
+                    {`${link.platform
+                      .charAt(0)
+                      .toUpperCase()}${link.platform.slice(1)}`}
+                  </div>
+
                   <Image
                     alt={link.platform}
-                    src={`${getIcon(link.platform)}`}
+                    src="/images/arrowRight.svg"
                     width={16}
                     height={16}
                     className="mr-[8px]"
                   />
-                  {`${link.platform
-                    .charAt(0)
-                    .toUpperCase()}${link.platform.slice(1)}`}
-                </div>
-
-                <Image
-                  alt={link.platform}
-                  src="/images/arrowRight.svg"
-                  width={16}
-                  height={16}
-                  className="mr-[8px]"
-                />
-              </a>
-            );
-          })}
+                </a>
+              );
+            })
+          ) : (
+            <div className="absolute flex flex-col items-center justify-center w-[273px] h-full animate-pulse">
+              <div className="block text-center py-3 px-4 rounded-md mb-[20px] bg-[#EEEEEE] w-full h-[44px]"></div>
+              <div className="block text-center py-3 px-4 rounded-md mb-[20px] bg-[#EEEEEE] w-full h-[44px]"></div>
+              <div className="block text-center py-3 px-4 rounded-md mb-[20px] bg-[#EEEEEE] w-full h-[44px]"></div>
+              <div className="block text-center py-3 px-4 rounded-md mb-[20px] bg-[#EEEEEE] w-full h-[44px]"></div>
+              <div className="block text-center py-3 px-4 rounded-md mb-3 bg-[#EEEEEE] w-3/4 h-[44px]"></div>
+            </div>
+          )}
         </div>
       </div>
     </div>
