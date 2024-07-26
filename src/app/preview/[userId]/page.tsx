@@ -40,7 +40,7 @@ export default function Preview() {
       <CustomToast
         icon={
           <Image
-            src="/image/linkIcon.svg"
+            src="/images/linkIcon.svg"
             alt="linkicon"
             width={20}
             height={20}
