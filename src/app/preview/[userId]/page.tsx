@@ -39,21 +39,12 @@ export default function Preview() {
     toast.custom(
       <CustomToast
         icon={
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            width="24"
-            height="24"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            style={{ marginRight: "8px" }}
-          >
-            <path d="M9 11l3 3L22 4" />
-            <path d="M22 12v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h9" />
-          </svg>
+          <Image
+            src="/image/linkicon.svg"
+            alt="linkicon"
+            width={20}
+            height={20}
+          />
         }
         text="The link has been copied to your clipboard!"
       />

@@ -11,6 +11,8 @@ import { Link } from "../../../types";
 import { auth } from "../../../lib/firebaseConfig";
 import Image from "next/image";
 import PhoneMockup from "../../../components/PhoneMockup";
+import toast from "react-hot-toast";
+import CustomToast from "../../../components/CustomToast";
 
 export default function Links() {
   const [links, setLinks] = useState<Link[]>([]);
@@ -40,6 +42,7 @@ export default function Links() {
     }
   };
 
+  
   const handleUpdateLink = async (id: string, updates: Partial<Link>) => {
     await updateLink(id, updates);
     setLinks(
@@ -51,6 +54,17 @@ export default function Links() {
     await deleteLink(id);
     setLinks(links.filter((link) => link.id !== id));
   };
+
+  const handleSave = () => {
+    toast.custom(
+      <CustomToast
+        icon = {
+          <Image src='/images/floppy-save.svg' alt='linkicon' width={20} height={20} />
+        }
+        text="Your links have been successfully saved!"
+      />
+    )
+  }
 
   return (
     <div className="mx-auto min-h-screen max-w-[1440px] flex flex-col items-center justify-center">
@@ -122,7 +136,7 @@ export default function Links() {
             <Button
               width="w-[91px]"
               textColor="#fff"
-              onClick={() => alert("Save clicked!")}
+              onClick={handleSave}
             >
               Save
             </Button>

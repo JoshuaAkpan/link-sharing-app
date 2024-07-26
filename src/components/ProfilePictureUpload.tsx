@@ -26,66 +26,72 @@ const ProfilePictureUpload: React.FC<ProfilePictureUploadProps> = ({
   };
 
   return (
-    <div className="text-[#737373] bg-[#FAFAFA] flex flex-col  md:items-center md:flex-row md:justify-center md:gap-[12px] md:h-[] rounded-[12px] p-[20px] items-center">
-      <h1 className="">Profile picture</h1>
+    <div className="text-[#737373] bg-[#FAFAFA] flex flex-col justify-center items-start md:items-center md:flex-row md:justify-between md:gap-[20px] h-fit rounded-[12px] p-[20px] ">
+      <h1 className=" w-[240px]">Profile picture</h1>
 
-      <div className="w-64 h-64 relative mb-4">
-        {image ? (
-          <Image
-            src={image}
-            alt="Profile"
-            width={193}
-            height={193}
-            className="object-cover rounded-[12px]"
-          />
-        ) : (
-          <div className="w-[193px] h-[193px] bg-gray-200 rounded-[12px] flex items-center justify-center">
-            <span className="text-gray-500"></span>
-          </div>
-        )}
-
-        <div className={`absolute h-[193px] w-[193px] inset-0  bg-opacity-50 rounded-[12px] flex flex-col items-center justify-center cursor-pointer ${image ? 'bg-[#EFEBFF]':'bg-[#00000080]'}`}>
-
+      <div className="w-[50%] h-fit flex flex-col md:flex-row md:justify-center md:items-center md:gap-[2px] md:flex-grow ">
+        
+        <div className="w-64 h-64 relative md:-mb-[60px]">
           {image ? (
-            <div className="flex flex-col justify-center items-center">
-              <Image
-                src="/images/imageUploadIcon.svg"
-                alt="imageUploadIcon"
-                width={40}
-                height={40}
-                className="fill-[#FFFFFF]"
-              />
-              <span className="mt-4 text-[#FFFFFF] text-base font-semibold">
-                Change Image
-              </span>
-            </div>
+            <Image
+              src={image}
+              alt="Profile"
+              width={193}
+              height={193}
+              className="object-cover rounded-[12px]"
+            />
           ) : (
-            <div className="flex flex-col justify-center items-center">
-              <Image
-                src="/images/imageUploadIcon.svg"
-                alt="imageUploadIcon"
-                width={40}
-                height={40}
-                className="text-[#633CFF]"
-              />
-              <span className="mt-4 text-[#633CFF] text-base font-semibold">
-                + Upload Image
-              </span>
+            <div className="w-[193px] h-[193px] bg-gray-200 rounded-[12px]">
+              <span className="text-gray-500"></span>
             </div>
           )}
+
+          <div
+            className={`absolute h-[193px] w-[193px] inset-0  bg-opacity-50 rounded-[12px] flex flex-col items-center justify-center cursor-pointer ${
+              image ? "bg-[#00000080]" : " bg-[#EFEBFF] "
+            }`}
+          >
+            {image ? (
+              <div className="flex flex-col justify-center items-center ">
+                <Image
+                  src="/images/imageUploadIcon.svg"
+                  alt="imageUploadIcon"
+                  width={40}
+                  height={40}
+                  className="file-svg-filter"
+                />
+                <span className="mt-2 text-[#FFFFFF] text-base font-normal">
+                  Change Image
+                </span>
+              </div>
+            ) : (
+              <div className="flex flex-col justify-center items-center">
+                <Image
+                  src="/images/imageUploadIcon.svg"
+                  alt="imageUploadIcon"
+                  width={40}
+                  height={40}
+                  className="text-[#633CFF]"
+                />
+                <span className="mt-4 text-[#633CFF] text-base font-semibold">
+                  + Upload Image
+                </span>
+              </div>
+            )}
+          </div>
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="absolute inset-0 opacity-0 cursor-pointer w-[40px] h-[40px]"
+          />
         </div>
 
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          className="absolute inset-0 opacity-0 cursor-pointer"
-        />
+        <p className="text-sm text-gray-500 h-fit w-[255px]  ">
+          Image must be below 1024x1024px. Use PNG or JPG format.
+        </p>
       </div>
-
-      <p className="text-sm text-gray-500 mt-2 text-center md:h-[54px] md:w-[127px]">
-        Image must be below 1024x1024px. Use PNG or JPG format.
-      </p>
     </div>
   );
 };
