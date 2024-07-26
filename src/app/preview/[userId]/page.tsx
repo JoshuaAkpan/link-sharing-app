@@ -64,7 +64,7 @@ export default function Preview() {
       <div className="hidden md:block absolute top-0 w-full h-[357px] bg-[#633CFF] rounded-b-[32px] z-0"></div>
 
       <header className="container w-full h-[78px] px-4 py-4 flex justify-between items-center rounded-[12px] mb-[126px] z-10 bg-[#FFFFFF]">
-        <a onClick={() => router.push("/")}>
+        <a onClick={() => router.push("/dashboard/links")}>
           <span className="bg-white cursor-pointer text-purple-600 border border-purple-600 px-4 py-2 rounded-md hover:bg-purple-100">
             Back to Editor
           </span>
