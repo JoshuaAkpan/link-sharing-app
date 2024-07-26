@@ -50,7 +50,7 @@ export const getIcon = (platform: string): React.ReactNode => {
     codewars: "/images/codewars.svg",
     freecodecamp: "/images/github.svg",
     gitlab: "/images/gitlab-fill.svg",
-    hashnode: "/images/stackoverflow.svg",
+    hashnode: "/images/fa6-brands_hashnode.svg",
     "stack overflow": "/images/stackoverflow.svg",
   };
   return icons[platform] || "";

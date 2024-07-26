@@ -30,3 +30,8 @@ body {
 .custom-cursor {
   caret-color: #633cff;
 }
+
+.svg-filter{
+  filter: invert(52%) sepia(0%) saturate(19%) hue-rotate(138deg) brightness(86%) contrast(90%);;
+}
+

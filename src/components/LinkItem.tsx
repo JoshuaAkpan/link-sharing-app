@@ -52,7 +52,7 @@ const LinkItem: React.FC<LinkItemProps> = ({ link, onUpdate, onDelete, count }) 
         value={url}
         onChange={handleUrlChange}
         className="w-full mb-2 p-2 border border-gray-300 focus:border-[#633CFF] rounded-md focus:outline-none focus:border focus:shadow-custom custom-cursor"
-        placeholder="https://..."
+        placeholder="https://www..."
       />
     </div>
   );

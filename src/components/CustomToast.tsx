@@ -1,5 +1,3 @@
-// components/CustomToast.tsx
-
 import React from 'react';
 
 interface CustomToastProps {
