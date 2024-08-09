@@ -1,5 +1,14 @@
-**ATTENTION!!!!** WORK-IN-PROGRESS
+## Fully Functional Link Sharing Web Application (https://link-sharing-app-peach.vercel.app/)
 
+**ATTENTION!!!!** WORK-IN-PROGRESS (Profile page - Only on the UI. Asides that, it is fully functional. You can update profile Info)
+
+**Backend Technology:** Firebase (for backend services including Firestore, Authentication, Cloud Functions)
+
+<br />
+<br />
+<br />
+
+---
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
